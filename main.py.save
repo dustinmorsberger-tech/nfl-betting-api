@@ -1,0 +1,30 @@
+from flask import Flask, jsonify
+from model import generate_all_picks
+import os
+
+app = Flask(__name__)
+API_KEY = os.environ.get("ODDS_API_KEY", 
+"f5342e7e96c21d2c6775e9686cc066c2")
+
+@app.route("/")
+def home():
+    return "NFL Betting Model is Live!"
+
+@app.route("/picks")
+def picks():
+    try:
+        result = generate_all_picks(API_KEY)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run()
+cd ~/Desktop/nfl-betting-api
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/nfl-betting-api.git
+git push -u origin main
+
